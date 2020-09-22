@@ -1,0 +1,32 @@
+
+# This repository is configured to automatically publish release files, thanks to
+# [Travis-CI](https://travis-ci.org).  To give the right tag to a release, commit
+# and tag informations must be pushed together, e.g.:
+#
+# git commit -a -m 'Changes summary'
+# git tag 0.1_wip
+# git push origin : 0.1_wip
+
+language: c
+
+matrix:
+  include:
+    - os: linux
+      env: TARGET="x86_linux"
+    - os: linux
+      env: TARGET="arm_linux"
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_API_KEY
+  file_glob: true
+  file: "build/deploy/*"
+  skip_cleanup: true
+
+branches:
+  only:
+    - master
+
+script:
+  - sh build.sh
+
