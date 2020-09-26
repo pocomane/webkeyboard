@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 
-# You can simply type the following line into the shell instead of running this file
-curl -L -k -s https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkey_mister.sh | bash -s update
+# Test internet
+ping -c 1 www.google.com > /dev/null
+if [ "$?" != "0" ]; then
+  echo "Network not found: check your internet connection or try later"
+  exit 126
+fi
 
-# ---------------------------------------------------------------------------------
+# vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+# You can simply run the following command instead of running this file
+#
+curl -L -k https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkey_mister.sh | bash -s update
+#
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 X=("${PIPESTATUS[@]}")
 EXIT_CODE=${X[0]}
@@ -15,5 +24,6 @@ if [ "$EXIT_CODE" != "0" ]; then
 fi
 
 read -n 1 -s -r -p "Press any key to continue"
+echo ""
 exit $EXIT_CODE
 

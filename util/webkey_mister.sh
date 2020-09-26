@@ -35,6 +35,7 @@ wk_generate_script(){
   echo '# ----------------------------------------------------------------' >> "$2"
   echo 'export EXIT_CODE="$?"' >> "$2"
   echo 'read -n 1 -s -r -p "Press any key to continue"' >> "$2"
+  echo 'echo ""' >> "$2"
   echo 'exit $EXIT_CODE' >> "$2"
   chmod ugo+x "$2"
 }
