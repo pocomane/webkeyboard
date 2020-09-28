@@ -1,14 +1,19 @@
 #/usr/bin/env bash
 
 GITHUB_REPO="pocomane/webkeyboard"
-PACK_NAME_PATTERN="webkeyboard_arm.*tar.gz"
 TREE_PATH="/media/fat"
 EXE_NAME="webkeyboard.exe"
 WORKING_SUB="misc/webkeyboard"
 SCRIPT_SUB="Scripts"
+#TARGET_ARCH="x86"
+TARGET_ARCH="arm"
 
 # ---------------------------------------------------------------------------------
 
+PACK_PATTERN="webkeyboard_$TARGET_ARCH.*tar.gz"
+# NAP = Name And Pattern : it will be used both as file name and grep pattern
+MAIN_SCRIPT_NAP="webkey_mister.sh"
+UPLOADER_NAP="webkey_update.sh"
 WORKING_DIR="$TREE_PATH/$WORKING_SUB"
 SCRIPT_DIR="$TREE_PATH/$SCRIPT_SUB"
 EXE_PATH="$WORKING_DIR/$EXE_NAME"
@@ -40,24 +45,37 @@ wk_generate_script(){
   chmod ugo+x "$2"
 }
 
+PACK_LIST=""
+wk_release_download(){
+  if [ "$PACK_LIST" = "" ]; then
+    PACK_LIST=$($CURL -L -s $API_URL/releases/latest | sed -ne 's|^[ "]*browser_download_url[ "]*:[ "]*\([^"]*\)[ ",\t]*$|\1|p')
+  fi
+  PACK_URL=$(echo "$PACK_LIST" | grep "$1" | head -n 1)
+  INFO="repo '$REPO_URL' / file '$PACK_URL'"
+  $CURL "$PACK_URL" > "$2" ||die "can not download $INFO"
+}
+
 wk_update(){
   echo "Installing the service"
 
-  $CURL https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkey_mister.sh > "$WORKING_DIR/webkey_mister.sh" ||die "can not access the working direrctory '$WORKING_DIR'"
+  wk_release_download "$MAIN_SCRIPT_NAP" "$WORKING_DIR/$MAIN_SCRIPT_NAP"
   chmod ugo+x "$WORKING_DIR/webkey_mister.sh" ||die "can not access the working direrctory '$WORKING_DIR'"
   mkdir -p "$SCRIPT_DIR" ||die "can not create the script directory '$SCRIPT_DIR'"
   wk_generate_script "$WORKING_DIR/webkey_mister.sh start" "$SCRIPT_DIR/webkey_start.sh"
   wk_generate_script "$WORKING_DIR/webkey_mister.sh stop" "$SCRIPT_DIR/webkey_stop.sh"
 
-  PACK_LIST=$($CURL -L -s $API_URL/releases/latest | sed -ne 's|^[ "]*browser_download_url[ "]*:[ "]*\([^"]*\)[ ",\t]*$|\1|p')
-  PACK_URL=$(echo "$PACK_LIST" | grep "$PACK_NAME_PATTERN" | head -n 1)
-  INFO="repo '$REPO_URL' / file '$PACK_URL'"
-  $CURL "$PACK_URL" > "./tmp.tar.gz" ||die "can not download $INFO"
+  wk_release_download "$PACK_PATTERN" "./tmp.tar.gz"
   $TAR -xzf tmp.tar.gz ||die "can not unpack $INFO"
   chmod ugo+x "$EXE_PATH" ||die "can not make '$EXE_PATH' executable"
   rm -f tmp.tar.gz
   if [ "$(ls $EXE_PATH)" = "" ]; then
-    false ||die "invalid package $INFO" 
+    false ||die "invalid package $INFO"
+  fi
+
+  wk_release_download "$UPLOADER_NAP" "$SCRIPT_DIR/$UPLOADER_NAP"
+  chmod ugo+x "$SCRIPT_DIR/$UPLOADER_NAP" ||die "can not make '$EXE_PATH' executable"
+  if [ "$(ls "$SCRIPT_DIR/$UPLOADER_NAP")" = "" ]; then
+    false ||die "invalid package $INFO"
   fi
 
   if [ "$?" = "0" ]; then
