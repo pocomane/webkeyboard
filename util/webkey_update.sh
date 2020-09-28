@@ -10,7 +10,7 @@ fi
 # vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 # You can simply run the following command instead of running this file
 #
-curl -L -k https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkey_mister.sh | bash -s update
+curl -L -k https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkeyboard.sh | bash -s update
 #
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

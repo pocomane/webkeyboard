@@ -11,7 +11,7 @@ TARGET_ARCH="arm"
 # ---------------------------------------------------------------------------------
 
 # NAP = Name And Pattern : it will be used both as file name and grep pattern
-MAIN_SCRIPT_NAP="webkey_mister.sh"
+MAIN_SCRIPT_NAP="webkeyboard.sh"
 UPLOADER_NAP="webkey_update.sh"
 WORKING_DIR="$TREE_PATH/$WORKING_SUB"
 SCRIPT_DIR="$TREE_PATH/$SCRIPT_SUB"
@@ -79,10 +79,10 @@ wk_update(){
   echo "Installing the service"
 
   wk_release_download "$MAIN_SCRIPT_NAP" "$WORKING_DIR/$MAIN_SCRIPT_NAP"
-  chmod ugo+x "$WORKING_DIR/webkey_mister.sh" ||die "can not access the working direrctory '$WORKING_DIR'"
+  chmod ugo+x "$WORKING_DIR/webkeyboard.sh" ||die "can not access the working direrctory '$WORKING_DIR'"
   mkdir -p "$SCRIPT_DIR" ||die "can not create the script directory '$SCRIPT_DIR'"
-  wk_generate_script "$WORKING_DIR/webkey_mister.sh start" "$SCRIPT_DIR/webkey_start.sh"
-  wk_generate_script "$WORKING_DIR/webkey_mister.sh stop" "$SCRIPT_DIR/webkey_stop.sh"
+  wk_generate_script "$WORKING_DIR/webkeyboard.sh start" "$SCRIPT_DIR/webkey_start.sh"
+  wk_generate_script "$WORKING_DIR/webkeyboard.sh stop" "$SCRIPT_DIR/webkey_stop.sh"
 
   wk_release_download "$PACK_PATTERN" "./tmp.tar.gz"
   $TAR -xzf tmp.tar.gz ||die "can not unpack $INFO"

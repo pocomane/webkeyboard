@@ -73,7 +73,7 @@ mkdir -p deploy
 tar -zcf "deploy/webkeyboard_$TARGET.tar.gz" Readme.md webkeyboard.exe ||die
 if [ "$DEPLOY_ARCH_INDEPENDENT_FILES" = "yes" ]; then
   cp ../util/webkey_update.sh deploy/ ||die
-  cp ../util/webkey_mister.sh deploy/ ||die
+  cp ../util/webkeyboard.sh deploy/ ||die
 fi
 ls -lha deploy
 

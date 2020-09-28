@@ -17,7 +17,7 @@ To install the last release, you can run the `util/webkey_update.sh` script on
 the target machine. Altenatively you can run the following command:
 
 ```
-curl -L -k https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkey_mister.sh | bash -s update
+curl -L -k https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkey.sh | bash -s update
 ```
 
 in a shell on the target machine. Both the methods will download the last built
