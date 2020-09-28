@@ -14,7 +14,9 @@ matrix:
     - os: linux
       env: TARGET="x86_linux"
     - os: linux
-      env: TARGET="arm_linux"
+      env:
+        - TARGET="arm_linux"
+        - DEPLOY_ARCH_INDEPENDENT_FILES="yes"
 
 deploy:
   provider: releases

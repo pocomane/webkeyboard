@@ -71,7 +71,9 @@ cp ./wip ./Readme.md ||die
 
 mkdir -p deploy
 tar -zcf "deploy/webkeyboard_$TARGET.tar.gz" Readme.md webkeyboard.exe ||die
-cp ../util/webkey_update.sh deploy/ ||die
-cp ../util/webkey_mister.sh deploy/ ||die
+if [ "$DEPLOY_ARCH_INDEPENDENT_FILES" = "yes" ]; then
+  cp ../util/webkey_update.sh deploy/ ||die
+  cp ../util/webkey_mister.sh deploy/ ||die
+fi
 ls -lha deploy
 

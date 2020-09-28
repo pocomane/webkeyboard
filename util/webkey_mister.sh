@@ -10,7 +10,6 @@ TARGET_ARCH="arm"
 
 # ---------------------------------------------------------------------------------
 
-PACK_PATTERN="webkeyboard_$TARGET_ARCH.*tar.gz"
 # NAP = Name And Pattern : it will be used both as file name and grep pattern
 MAIN_SCRIPT_NAP="webkey_mister.sh"
 UPLOADER_NAP="webkey_update.sh"
@@ -28,9 +27,30 @@ die(){
   echo "ERROR $1"
   exit 127
 }
-  
-mkdir -p "$WORKING_DIR" ||die "can not create the working directory '$WORKING_DIR'"
-cd "$WORKING_DIR" ||die "can not enter in the working direrctory '$WORKING_DIR'"
+
+PACK_PATTERN=""
+wk_prepare(){
+
+  # Use environment variable ARCH to select the package version
+  case $ARCH in
+    "")
+       echo "Using default arch: $TARGET_ARCH";;
+    "arm")
+       echo "Using arch: $TARGET_ARCH";;
+    "x86")
+       TARGET_ARCH="$ARCH"
+       echo "Using arch: $TARGET_ARCH";;
+    *)
+       echo "Supported archs: arm, x86"
+       false ||die "Invalid arch: $ARCH"
+       ;;
+  esac
+
+  mkdir -p "$WORKING_DIR" ||die "can not create the working directory '$WORKING_DIR'"
+  cd "$WORKING_DIR" ||die "can not enter in the working direrctory '$WORKING_DIR'"
+
+  PACK_PATTERN="webkeyboard_$TARGET_ARCH.*tar.gz"
+}
 
 wk_generate_script(){
   echo "#!/usr/bin/env bash" > "$2"
@@ -118,7 +138,12 @@ wk_info(){
   echo "  $0 stop"
 }
 
+wk_finish(){
+  echo "Done."
+}
+
 # main dispatch
+wk_prepare
 if [ "$#" = "0" ]; then
   wk_info
 else
@@ -136,4 +161,5 @@ else
        ;;
   esac
 fi
+wk_finish
 
