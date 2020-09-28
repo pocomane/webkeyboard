@@ -33,13 +33,11 @@ wk_prepare(){
 
   # Use environment variable ARCH to select the package version
   case $ARCH in
-    "")
-       echo "Using default arch: $TARGET_ARCH";;
-    "arm")
-       echo "Using arch: $TARGET_ARCH";;
+    "") ;;
+    "arm") ;;
     "x86")
        TARGET_ARCH="$ARCH"
-       echo "Using arch: $TARGET_ARCH";;
+       ;;
     *)
        echo "Supported archs: arm, x86"
        false ||die "Invalid arch: $ARCH"
