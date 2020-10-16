@@ -69,8 +69,20 @@ echo -n "\nToolchain version $DOWNLOAD_GCC_TOOLCHAIN" >> ./wip ||die
 echo >> ./wip ||die
 cp ./wip ./Readme.md ||die
 
+echo "Generating action script for MiSTer_misc distribution"
+gen_script(){
+  echo "#!/usr/bin/env bash" > "$2"
+  echo "" >> "$2"
+  echo "$1" >> "$2"
+  echo '' >> "$2"
+  chmod ugo+x "$2"
+}
+mkdir -o hook/action
+gen_script "./webkeyboard.sh start" "hook/action/webkey_start.sh" ||die
+gen_script "./webkeyboard.sh stop" "hook/action/webkey_stop.sh" ||die
+
 mkdir -p deploy
-tar -zcf "deploy/webkeyboard_$TARGET.tar.gz" Readme.md webkeyboard.exe ||die
+tar -zcf "deploy/webkeyboard_$TARGET.tar.gz" Readme.md webkeyboard.exe hook/ ||die
 if [ "$DEPLOY_ARCH_INDEPENDENT_FILES" = "yes" ]; then
   cp ../util/webkey_update.sh deploy/ ||die
   cp ../util/webkeyboard.sh deploy/ ||die
