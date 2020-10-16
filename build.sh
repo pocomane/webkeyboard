@@ -77,7 +77,7 @@ gen_script(){
   echo '' >> "$2"
   chmod ugo+x "$2"
 }
-mkdir -o hook/action
+mkdir -p hook/action
 gen_script "./webkeyboard.sh start" "hook/action/webkey_start.sh" ||die
 gen_script "./webkeyboard.sh stop" "hook/action/webkey_stop.sh" ||die
 
