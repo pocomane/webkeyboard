@@ -4,7 +4,7 @@ set -x
 
 die(){
   echo "ERROR"
-  exit -1
+  exit 127
 }
 
 export CFLAGS=" -std=gnu99 -O2 "
@@ -78,11 +78,12 @@ gen_script(){
   chmod ugo+x "$2"
 }
 mkdir -p hook/action
-gen_script "./util/webkeyboard.sh start" "hook/action/webkey_start.sh" ||die
-gen_script "./util/webkeyboard.sh stop" "hook/action/webkey_stop.sh" ||die
+cp ../util/webkeyboard.sh ./ ||die
+gen_script "./webkeyboard.sh start" "hook/action/webkey_start.sh" ||die
+gen_script "./webkeyboard.sh stop" "hook/action/webkey_stop.sh" ||die
 
 mkdir -p deploy
-tar -zcf "deploy/webkeyboard_$TARGET.tar.gz" Readme.md webkeyboard.exe util/webkeyboard.sh hook/ ||die
+tar -zcf "deploy/webkeyboard_$TARGET.tar.gz" Readme.md webkeyboard.exe webkeyboard.sh hook/ ||die
 if [ "$DEPLOY_ARCH_INDEPENDENT_FILES" = "yes" ]; then
   cp ../util/webkey_update.sh deploy/ ||die
   cp ../util/webkeyboard.sh deploy/ ||die
