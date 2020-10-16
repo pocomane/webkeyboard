@@ -79,8 +79,8 @@ gen_script(){
 }
 mkdir -p hook/action
 cp ../util/webkeyboard.sh ./ ||die
-gen_script "./webkeyboard.sh start" "hook/action/webkey_start.sh" ||die
-gen_script "./webkeyboard.sh stop" "hook/action/webkey_stop.sh" ||die
+gen_script "./webkeyboard.sh start" "hook/action/start.sh" ||die
+gen_script "./webkeyboard.sh stop" "hook/action/stop.sh" ||die
 
 mkdir -p deploy
 tar -zcf "deploy/webkeyboard_$TARGET.tar.gz" Readme.md webkeyboard.exe webkeyboard.sh hook/ ||die
