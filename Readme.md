@@ -13,23 +13,32 @@ SOFTWARE.
 
 # Installation
 
-To install the last release, you can run the `util/webkey_update.sh` script on
-the target machine. Altenatively you can run the following command:
+This application was developed mainly to operate on a
+[MiSTer](https://github.com/MiSTer-devel/Main_MiSTer/wiki). For that platform there
+is a simple scripts to install/update it; you can find it at
+[MiSTer_misc](https://github.com/pocomane/MiSTer_misc).
+
+For other linux on x86 or ARMs (with hard float), there are some package in the
+[Release page](https://github.com/pocomane/webkeyboard/releases/latest): you just
+need to download and extract one of them.
+
+In the case you want to build it from source, if you have a working C toolchain, it
+should be as simple as running:
 
 ```
-curl -L -k https://raw.githubusercontent.com/pocomane/webkeyboard/master/util/webkey.sh | bash -s update
+gcc -static -o webkeyboard.exe webkeyboard.c
 ```
 
-in a shell on the target machine. Both the methods will download the last built
-release and install it in the default path: `/media/fat/misc/webkeyboard`. It
-will also generate start/stop script in the default path: `/media/fat/Scripts`.
+Altenatively a build script is provided. It will download a full and self-contained
+gcc toolchain from [musl.cc](https://musl.cc). If the `TARGET` environment
+varible is set to `arm_linux`, a cross compilation toolchanchain will be used
+and arm executables will be generated.
+
 
 # Usage
 
-Suppose you have a Server at 192.168.0.1.
-
-You can run the start script as root or run the following command in the
-installation directory:
+Suppose you have a Server at 192.168.0.1, you have to run the binary with root
+privilages, i.e. if the binary is in the current directory:
 
 ```
 sudo ./webkeyboard.exe 8081
@@ -38,7 +47,7 @@ sudo ./webkeyboard.exe 8081
 The root permissions are needed to create the virtual keyboard device file.
 
 Now, from any Client in the same sub-network, you can point your browser to
-http://192.168.0.1:8080.
+http://192.168.0.1:8081.
 
 While the browser window and tab have the focus, all the keyboard events of the
 Client will be emulated on the server.
@@ -57,18 +66,4 @@ process bind to a port lower than 1024.
 
 This application is deliberately very simple. It does have any security enforcement
 (no TLS, no passwod, etc.). So please use it only in non-critical application.
-
-# Building
-
-Instead of installing the binary release, you can build the utility by yourself
-with:
-
-```
-gcc webkeyboard.c
-```
-
-Altenatively a build script is provided. It will download a full and self-contained
-gcc toolchain from [musl.cc](https://musl.cc). If the `TARGET` environment
-varible is set to `arm_linux`, a cross compilation toolchanchain will be used
-and arm executables will be generated.
 
