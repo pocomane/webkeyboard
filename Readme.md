@@ -16,7 +16,8 @@ SOFTWARE.
 This application was developed mainly to operate on a
 [MiSTer](https://github.com/MiSTer-devel/Main_MiSTer/wiki). For that platform there
 is a simple scripts to install/update it; you can find it at
-[MiSTer_misc](https://github.com/pocomane/MiSTer_misc).
+[MiSTer_misc](https://github.com/pocomane/MiSTer_misc). ( NOTE : old
+update feature still present in this repo ! TODO : REMOVE THE UPDATE FEATURE )
 
 For other linux on x86 or ARMs (with hard float), there are some package in the
 [Release page](https://github.com/pocomane/webkeyboard/releases/latest): you just

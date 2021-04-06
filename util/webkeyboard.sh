@@ -1,5 +1,7 @@
 #/usr/bin/env bash
 
+# TODO : REMOVE UPDATE FEATURE : it can be handled by https://github.com/pocomane/MiSTer_misc
+
 GITHUB_REPO="pocomane/webkeyboard"
 TREE_PATH="/media/fat"
 EXE_NAME="webkeyboard.exe"

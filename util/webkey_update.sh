@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO : REMOVE THIS FILE : the update can be handled by https://github.com/pocomane/MiSTer_misc
+
 # Test internet
 ping -c 1 www.google.com > /dev/null
 if [ "$?" != "0" ]; then
